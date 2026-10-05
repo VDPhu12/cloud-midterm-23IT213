@@ -37,6 +37,7 @@ const VAT_RATE = VAT_PERCENT / 100;
 // =========================
 router.get("/books", async (req, res) => {
   try {
+    req.session.studentId = STUDENT_ID;
     const books = await ReadBook
       .find()
       .sort({ createdAt: -1 })

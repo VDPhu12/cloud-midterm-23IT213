@@ -2,11 +2,12 @@ require("dotenv").config();
 
 const express = require("express");
 const { engine } = require("express-handlebars");
+const session = require("express-session");
+const { MongoStore } = require("connect-mongo");
 
 const bookRoutes = require("./routes/bookRoutes");
 
 const app = express();
-
 
 // =========================
 // Handlebars configuration
@@ -22,7 +23,6 @@ app.engine(
 app.set("view engine", "hbs");
 app.set("views", "./views");
 
-
 // =========================
 // Middleware
 // =========================
@@ -34,8 +34,27 @@ app.use(
 
 app.use(express.json());
 
-app.use(express.static("public"));
+app.set("trust proxy", 1);
 
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGO_SESSION_URI,
+      dbName: "DB_23IT213",
+      collectionName: "sessions"
+    }),
+
+    cookie: {
+      maxAge: 1000 * 60 * 60
+    }
+  })
+);
+
+app.use(express.static("public"));
 
 // =========================
 // Routes
@@ -45,7 +64,6 @@ app.get("/", (req, res) => {
 });
 
 app.use("/", bookRoutes);
-
 
 // =========================
 // Start server
