@@ -1,0 +1,51 @@
+<div class="container">
+
+  <h1>Book Management</h1>
+
+  <a class="button" href="/books/add">
+    Add New Book
+  </a>
+
+  <table>
+
+    <thead>
+      <tr>
+        <th>Code</th>
+        <th>Book Name</th>
+        <th>Author</th>
+        <th>Original Price</th>
+        <th>VAT</th>
+        <th>Final Price</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      {{#each books}}
+
+      <tr>
+        <td>{{code}}</td>
+        <td>{{name}}</td>
+        <td>{{author}}</td>
+        <td>{{price}}</td>
+        <td>{{vat}}%</td>
+        <td>{{priceAfterTax}}</td>
+      </tr>
+
+      {{/each}}
+
+    </tbody>
+
+  </table>
+
+  <footer>
+    <hr>
+
+    <strong>{{studentName}}</strong>
+
+    <p>MSSV: {{studentId}}</p>
+
+    <p>Applied VAT: {{vat}}%</p>
+  </footer>
+
+</div>
